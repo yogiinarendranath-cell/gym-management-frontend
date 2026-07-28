@@ -1,0 +1,701 @@
+/* src/App.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: #f4f7fc;
+  display: flex;
+  justify-content: center;
+  padding: 30px 20px;
+}
+
+/* ============================================
+   APP CONTAINER
+   ============================================ */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 1400px;
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background: #0b2b4a;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.logo h1 {
+  font-size: 24px;
+  margin: 0;
+  color: white;
+}
+
+.logo span {
+  color: #FF5722;
+}
+
+.nav-links {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.nav-links button {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-links button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.nav-links button.active {
+  background: #FF5722;
+  color: white;
+}
+
+.nav-links button i {
+  font-size: 16px;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.user-profile i {
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.user-profile i:hover {
+  color: white;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #FF5722;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: white;
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+.main-content {
+  flex: 1;
+  padding: 24px;
+  background: #f4f7fc;
+}
+
+/* ============================================
+   STATS
+   ============================================ */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: #f9faff;
+  padding: 20px 18px;
+  border-radius: 18px;
+  border: 1px solid #e9edf4;
+  transition: 0.2s;
+}
+
+.stat-card:hover {
+  border-color: #b3c9e0;
+  background: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card .label {
+  font-size: 14px;
+  color: #6b7a8d;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-card .value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0b2b4a;
+  margin-top: 6px;
+}
+
+.stat-card .sub {
+  font-size: 13px;
+  color: #3b8b4c;
+  background: #e4f4e8;
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 40px;
+  margin-top: 6px;
+}
+
+.stat-card.premium .sub {
+  background: #fef0d9;
+  color: #b27b2e;
+}
+
+.stat-card.revenue .sub {
+  background: #ddeeff;
+  color: #1d6f9c;
+}
+
+/* ============================================
+   STATS GRID
+   ============================================ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.stat-card-simple {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+.stat-card-simple h3 {
+  color: #6b7a8d;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 8px 0;
+}
+
+.stat-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0b2b4a;
+  margin: 0;
+}
+
+/* ============================================
+   MESSAGES
+   ============================================ */
+.message {
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin: 10px 0;
+}
+
+.message.success {
+  background: #e0f2e6;
+  color: #1b7543;
+  border: 1px solid #b8e0cc;
+}
+
+.message.error {
+  background: #fce9e9;
+  color: #b13e3e;
+  border: 1px solid #f5d0d0;
+}
+
+/* ============================================
+   SECTION HEADER
+   ============================================ */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px 0 16px 0;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.section-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0b2b4a;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn-add {
+  background: #0b2b4a;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.2s;
+}
+
+.btn-add:hover {
+  background: #1d3f61;
+  transform: scale(1.02);
+}
+
+.btn-primary {
+  background: #0b2b4a;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 40px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-primary:hover {
+  background: #1d3f61;
+}
+
+.btn-secondary {
+  background: #eef2f7;
+  color: #3d4e62;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 40px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-secondary:hover {
+  background: #dce2ea;
+}
+
+/* ============================================
+   TABLE
+   ============================================ */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 18px;
+  border: 1px solid #e9edf4;
+  background: white;
+}
+
+.member-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.member-table th {
+  text-align: left;
+  padding: 16px 20px;
+  background: #f9faff;
+  color: #3d4e62;
+  font-weight: 600;
+  font-size: 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.member-table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #eef2f7;
+  color: #1c2c3c;
+  font-size: 14px;
+}
+
+.member-table tr:last-child td {
+  border-bottom: none;
+}
+
+.member-table tr:hover td {
+  background: #fafcff;
+}
+
+/* ============================================
+   STATUS BADGES
+   ============================================ */
+.status-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 40px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-premium {
+  background: #fef0d9;
+  color: #a5711e;
+}
+
+.status-basic {
+  background: #e4f0fa;
+  color: #1f6b9e;
+}
+
+.status-active {
+  background: #e0f2e6;
+  color: #1b7543;
+}
+
+.status-inactive {
+  background: #fce9e9;
+  color: #b13e3e;
+}
+
+/* ============================================
+   ACTION ICONS
+   ============================================ */
+.action-icons i {
+  margin: 0 4px;
+  padding: 6px;
+  color: #6f7e92;
+  cursor: pointer;
+  font-size: 15px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.action-icons i:hover {
+  background: #eef2f7;
+  color: #0b2b4a;
+}
+
+.action-icons i.fa-trash-alt:hover {
+  background: #fce9e9;
+  color: #b13e3e;
+}
+
+/* ============================================
+   LOADING / EMPTY / ERROR STATES
+   ============================================ */
+.loading,
+.loading-state,
+.empty-state,
+.error-state {
+  text-align: center;
+  padding: 40px;
+  color: #6b7a8d;
+}
+
+.loading {
+  font-size: 18px;
+}
+
+.error,
+.error-state {
+  color: #b13e3e;
+}
+
+.loading-state i,
+.empty-state i,
+.error-state i {
+  font-size: 40px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+/* ============================================
+   MODAL
+   ============================================ */
+.modal-overlay {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  border-radius: 24px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  font-size: 22px;
+  color: #0b2b4a;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #6b7a8d;
+}
+
+.modal-close:hover {
+  color: #0b2b4a;
+}
+
+/* ============================================
+   FORM
+   ============================================ */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  color: #3d4e62;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #dce2ea;
+  border-radius: 10px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #2a7de1;
+  box-shadow: 0 0 0 3px rgba(42, 125, 225, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  justify-content: flex-end;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  background: white;
+  padding: 20px 32px;
+  border-top: 1px solid #e9edf4;
+  text-align: center;
+  color: #5b6b7e;
+}
+
+.footer-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-links span {
+  cursor: pointer;
+}
+
+.footer-links span:hover {
+  color: #0b2b4a;
+}
+
+.credit {
+  font-size: 14px;
+}
+
+.credit strong {
+  color: #0b2b4a;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 20px 16px;
+  }
+  
+  .navbar {
+    flex-direction: column;
+    padding: 12px 16px;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .nav-links button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  
+  .user-profile {
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .main-content {
+    padding: 16px;
+  }
+  
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .stat-card .value,
+  .stat-number {
+    font-size: 24px;
+  }
+  
+  .modal {
+    padding: 20px;
+    margin: 10px;
+  }
+  
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .nav-links button {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+  
+  .member-table {
+    min-width: 500px;
+  }
+  
+  .member-table th,
+  .member-table td {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+  /* src/App.css - Add these styles */
+
+/* Navigation links - support both button and Link */
+.nav-links a,
+.nav-links button {
+  padding: 10px 20px;
+  border: none;
+  background: transparent;
+  color: #a0aec0;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.nav-links a:hover,
+.nav-links button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  text-decoration: none;
+}
+
+.nav-links a.active,
+.nav-links button.active {
+  background: #4CAF50;
+  color: white;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.nav-links a i,
+.nav-links button i {
+  font-size: 16px;
+}
+}

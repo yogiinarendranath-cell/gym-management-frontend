@@ -1,0 +1,21 @@
+/* src/styles/themes.css */
+:root {
+  --primary-color: #4CAF50;
+  --secondary-color: #2c3e50;
+  --accent-color: #e74c3c;
+  --bg-color: #f5f7fa;
+  --text-color: #333;
+  --card-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --bg-color: #1a1a2e;
+  --text-color: #fff;
+  --card-shadow: 0 4px 15px rgba(255,255,255,0.1);
+}
+
+/* Brand Colors */
+.brand-primary { background: #4CAF50; }
+.brand-secondary { background: #2c3e50; }
+.brand-accent { background: #e74c3c; }

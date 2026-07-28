@@ -1,0 +1,615 @@
+/* src/components/Payments/Payments.css */
+
+/* ============================================
+   Page Layout
+   ============================================ */
+.payments-page {
+  padding: 20px;
+}
+
+/* ============================================
+   Stats Grid
+   ============================================ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px 20px;
+  border: 1px solid #e9edf4;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-icon i {
+  font-size: 18px;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-label {
+  display: block;
+  font-size: 12px;
+  color: #6b7a8d;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: #0b2b4a;
+  line-height: 1.2;
+}
+
+.stat-sub {
+  display: block;
+  font-size: 12px;
+  color: #6b7a8d;
+  margin-top: 2px;
+}
+
+/* ============================================
+   Filters Bar
+   ============================================ */
+.filters-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e9edf4;
+}
+
+.search-wrapper {
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-wrapper i {
+  position: absolute;
+  left: 12px;
+  color: #6b7a8d;
+  font-size: 14px;
+}
+
+.search-wrapper input {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  border: 1px solid #dce2ea;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+  background: #f9faff;
+}
+
+.search-wrapper input:focus {
+  border-color: #2a7de1;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(42, 125, 225, 0.1);
+}
+
+.filter-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-select,
+.date-input {
+  padding: 8px 12px;
+  border: 1px solid #dce2ea;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background: #f9faff;
+  transition: 0.2s;
+  min-width: 120px;
+}
+
+.filter-select:focus,
+.date-input:focus {
+  border-color: #2a7de1;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(42, 125, 225, 0.1);
+}
+
+.btn-clear-filters {
+  padding: 8px 16px;
+  border: 1px solid #dce2ea;
+  border-radius: 8px;
+  font-size: 13px;
+  background: transparent;
+  color: #6b7a8d;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.btn-clear-filters:hover {
+  background: #fce9e9;
+  border-color: #b13e3e;
+  color: #b13e3e;
+}
+
+/* ============================================
+   Table
+   ============================================ */
+.table-wrapper {
+  overflow-x: auto;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e9edf4;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  text-align: left;
+  padding: 14px 20px;
+  background: #f9faff;
+  color: #3d4e62;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+td {
+  padding: 14px 20px;
+  border-bottom: 1px solid #eef2f7;
+  color: #1c2c3c;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+tr:hover td {
+  background: #fafcff;
+}
+
+.member-id {
+  font-size: 12px;
+  color: #6b7a8d;
+  margin-top: 2px;
+}
+
+.amount-cell .amount {
+  font-weight: 600;
+  color: #0b2b4a;
+}
+
+.payment-time {
+  font-size: 12px;
+  color: #6b7a8d;
+  margin-top: 2px;
+}
+
+/* ============================================
+   Status Badges
+   ============================================ */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-badge i {
+  font-size: 12px;
+}
+
+.status-paid {
+  background: #e0f2e6;
+  color: #1b7543;
+}
+
+.status-pending {
+  background: #fef3d9;
+  color: #a57a1e;
+}
+
+.status-failed {
+  background: #fce9e9;
+  color: #b13e3e;
+}
+
+.status-refunded {
+  background: #e4f0fa;
+  color: #1f6b9e;
+}
+
+/* ============================================
+   Action Buttons
+   ============================================ */
+.action-icons {
+  display: flex;
+  gap: 4px;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.action-btn.status-btn {
+  background: #e4f0fa;
+  color: #1f6b9e;
+}
+
+.action-btn.status-btn:hover {
+  background: #2a7de1;
+  color: white;
+}
+
+.action-btn.delete-btn {
+  background: #fce9e9;
+  color: #b13e3e;
+}
+
+.action-btn.delete-btn:hover {
+  background: #b13e3e;
+  color: white;
+}
+
+/* ============================================
+   Status Update Modal
+   ============================================ */
+.status-update-modal {
+  padding: 4px 0;
+}
+
+.status-update-info {
+  background: #f9faff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #3d4e62;
+  line-height: 1.6;
+}
+
+.status-update-info strong {
+  color: #0b2b4a;
+}
+
+/* ============================================
+   Page Header
+   ============================================ */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-left h2 {
+  color: #0b2b4a;
+  font-size: 24px;
+  margin: 0;
+}
+
+.total-count {
+  background: #eef2f7;
+  color: #3d4e62;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+.btn-primary {
+  background: #0b2b4a;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary:hover {
+  background: #1d3f61;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #eef2f7;
+  color: #3d4e62;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-secondary:hover {
+  background: #dce2ea;
+}
+
+/* ============================================
+   Messages
+   ============================================ */
+.message {
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message.success {
+  background: #e0f2e6;
+  color: #1b7543;
+  border: 1px solid #b8e0cc;
+}
+
+.message.error {
+  background: #fce9e9;
+  color: #b13e3e;
+  border: 1px solid #f5d0d0;
+}
+
+/* ============================================
+   Form
+   ============================================ */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  color: #3d4e62;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #dce2ea;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #2a7de1;
+  box-shadow: 0 0 0 3px rgba(42, 125, 225, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #eef2f7;
+}
+
+/* ============================================
+   Empty & Loading States
+   ============================================ */
+.loading-state,
+.error-state,
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #6b7a8d;
+}
+
+.loading-state i,
+.error-state i,
+.empty-state i {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.loading-state i {
+  color: #2a7de1;
+}
+
+.error-state i {
+  color: #b13e3e;
+}
+
+.empty-state p {
+  font-size: 18px;
+  font-weight: 500;
+  color: #0b2b4a;
+  margin: 8px 0;
+}
+
+.empty-state span {
+  font-size: 14px;
+  color: #6b7a8d;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .payments-page {
+    padding: 12px;
+  }
+
+  .filters-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-group {
+    flex-wrap: wrap;
+  }
+
+  .filter-select,
+  .date-input {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .search-wrapper {
+    min-width: auto;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-left {
+    justify-content: space-between;
+  }
+
+  .btn-clear-filters {
+    width: 100%;
+    justify-content: center;
+  }
+
+  td, th {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-group {
+    flex-direction: column;
+  }
+
+  .filter-select,
+  .date-input {
+    width: 100%;
+  }
+
+  .action-icons {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .action-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .status-badge {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+}

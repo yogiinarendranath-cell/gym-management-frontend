@@ -1,0 +1,491 @@
+// src/components/Members/MemberList.jsx
+import React, { useState, useCallback, useMemo } from 'react';
+import './Members.css';  // ✅ Fixed: Changed from Trainers.css
+import MemberForm from './MemberForm';  // ✅ Fixed: Changed from TrainerForm
+import { useMembers } from '../../hooks';
+import { 
+  formatDate, 
+  getMemberStatus, 
+  getPlanName, 
+  isPremiumMember,
+  formatCurrency,
+  debounce
+} from '../../utils/helpers';
+import { STATUS_BADGE_CLASSES } from '../../utils/constants';
+
+const MemberList = () => {
+  // Use the custom hook for data management
+  const {
+    members,
+    loading,
+    error,
+    totalCount,
+    addMember,
+    editMember,
+    removeMember,
+    searchMembers,
+    getStats
+  } = useMembers();
+
+  // Local UI state
+  const [showForm, setShowForm] = useState(false);
+  const [editingMember, setEditingMember] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortConfig, setSortConfig] = useState({ key: 'name', direction: 'asc' });
+  const [isSaving, setIsSaving] = useState(false);
+  
+  // Filter states
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [filterPlan, setFilterPlan] = useState('all');
+  const [showExportModal, setShowExportModal] = useState(false);
+
+  // Get stats from hook
+  const stats = useMemo(() => getStats(), [getStats, members]);
+
+  // Member analytics
+  const memberAnalytics = useMemo(() => {
+    const now = new Date();
+    const thisMonth = now.getMonth();
+    const thisYear = now.getFullYear();
+    const nextWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+    return {
+      newThisMonth: members.filter(m => {
+        const joinDate = new Date(m.joinDate);
+        return joinDate.getMonth() === thisMonth && joinDate.getFullYear() === thisYear;
+      }).length,
+      expiringSoon: members.filter(m => {
+        const expiryDate = new Date(m.expiryDate);
+        return expiryDate > now && expiryDate < nextWeek;
+      }).length,
+      activeToday: members.filter(m => getMemberStatus(m.expiryDate) === 'Active').length,
+      renewalDue: members.filter(m => {
+        const expiryDate = new Date(m.expiryDate);
+        return expiryDate < now;
+      }).length
+    };
+  }, [members]);
+
+  // Debounced search handler
+  const debouncedSearch = useCallback(
+    debounce((term) => {
+      setSearchTerm(term);
+    }, 300),
+    []
+  );
+
+  // Export to CSV
+  const exportMembers = useCallback(() => {
+    const headers = ['Name', 'Email', 'Phone', 'Age', 'Plan', 'Status', 'Join Date', 'Expiry Date'];
+    const csvData = filteredAndSortedMembers.map(m => [
+      m.name,
+      m.email || 'N/A',
+      m.phone,
+      m.age,
+      getPlanName(m.membershipPlanId),
+      getMemberStatus(m.expiryDate),
+      formatDate(m.joinDate),
+      formatDate(m.expiryDate)
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...csvData.map(row => row.join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `members_export_${formatDate(new Date())}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+    setShowExportModal(false);
+  }, [filteredAndSortedMembers]);
+
+  // Filter and sort members
+  const filteredAndSortedMembers = useMemo(() => {
+    let result = searchMembers(searchTerm);
+    
+    // Apply status filter
+    if (filterStatus !== 'all') {
+      result = result.filter(m => {
+        const status = getMemberStatus(m.expiryDate);
+        return status.toLowerCase() === filterStatus.toLowerCase();
+      });
+    }
+
+    // Apply plan filter
+    if (filterPlan !== 'all') {
+      result = result.filter(m => {
+        const plan = getPlanName(m.membershipPlanId);
+        return plan.toLowerCase() === filterPlan.toLowerCase();
+      });
+    }
+    
+    // Sort if configured
+    if (sortConfig.key) {
+      result = [...result].sort((a, b) => {
+        let aVal = a[sortConfig.key];
+        let bVal = b[sortConfig.key];
+        
+        if (typeof aVal === 'string') {
+          aVal = aVal.toLowerCase();
+          bVal = bVal.toLowerCase();
+        }
+        
+        if (aVal < bVal) return sortConfig.direction === 'asc' ? -1 : 1;
+        if (aVal > bVal) return sortConfig.direction === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+    
+    return result;
+  }, [members, searchTerm, sortConfig, filterStatus, filterPlan]);
+
+  // Handle save from MemberForm
+  const handleSave = async (memberData) => {
+    setIsSaving(true);
+    try {
+      if (editingMember) {
+        await editMember(editingMember.memberId, memberData);
+      } else {
+        await addMember(memberData);
+      }
+      setShowForm(false);
+      setEditingMember(null);
+    } catch (error) {
+      console.error('Error saving member:', error);
+      throw error;
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Handle edit button click
+  const handleEdit = (member) => {
+    setEditingMember(member);
+    setShowForm(true);
+  };
+
+  // Handle delete
+  const handleDelete = async (id) => {
+    if (!window.confirm(`Are you sure you want to delete member #${id}?`)) return;
+    try {
+      await removeMember(id);
+    } catch (error) {
+      console.error('Error deleting member:', error);
+    }
+  };
+
+  // Handle sort
+  const handleSort = (key) => {
+    setSortConfig(prev => ({
+      key,
+      direction: prev.key === key && prev.direction === 'asc' ? 'desc' : 'asc'
+    }));
+  };
+
+  // Handle form close
+  const handleFormClose = () => {
+    setShowForm(false);
+    setEditingMember(null);
+  };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="members-page">
+        <div className="loading-state">
+          <i className="fas fa-spinner fa-spin"></i>
+          Loading members...
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="members-page">
+        <div className="error-state">
+          <i className="fas fa-exclamation-triangle"></i>
+          {error}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="members-page">
+      {/* Page Header */}
+      <div className="page-header">
+        <div className="header-left">
+          <h2>📋 Members</h2>
+          <span className="total-count">{totalCount} members</span>
+        </div>
+        <div className="header-actions">
+          {/* Export button */}
+          <button 
+            className="btn-secondary"
+            onClick={() => setShowExportModal(true)}
+          >
+            <i className="fas fa-file-export"></i> Export
+          </button>
+          <button 
+            className="btn-primary" 
+            onClick={() => {
+              setEditingMember(null);
+              setShowForm(true);
+            }}
+          >
+            <i className="fas fa-plus"></i> Add Member
+          </button>
+        </div>
+      </div>
+
+      {/* Stats Summary */}
+      <div className="stats-summary">
+        <div className="stat-item">
+          <span className="stat-label">Total</span>
+          <span className="stat-value">{stats.total}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">Active</span>
+          <span className="stat-value text-success">{stats.active}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">Premium</span>
+          <span className="stat-value text-warning">{stats.premium}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">Revenue</span>
+          <span className="stat-value text-primary">{formatCurrency(stats.revenue)}</span>
+        </div>
+        {/* Analytics stats */}
+        <div className="stat-item">
+          <span className="stat-label">New This Month</span>
+          <span className="stat-value text-info">{memberAnalytics.newThisMonth}</span>
+        </div>
+        <div className="stat-item">
+          <span className="stat-label">Expiring Soon</span>
+          <span className="stat-value text-danger">{memberAnalytics.expiringSoon}</span>
+        </div>
+      </div>
+
+      {/* Search and Filters */}
+      <div className="search-bar">
+        <div className="search-input-wrapper">
+          <i className="fas fa-search"></i>
+          <input
+            type="text"
+            placeholder="Search by name, phone, or email..."
+            defaultValue={searchTerm}
+            onChange={(e) => debouncedSearch(e.target.value)}
+          />
+          {searchTerm && (
+            <button 
+              className="clear-search"
+              onClick={() => {
+                setSearchTerm('');
+                const input = document.querySelector('.search-input-wrapper input');
+                if (input) input.value = '';
+              }}
+            >
+              <i className="fas fa-times"></i>
+            </button>
+          )}
+        </div>
+        
+        {/* Filter dropdowns */}
+        <div className="filter-group">
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="filter-select"
+          >
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="expired">Expired</option>
+            <option value="pending">Pending</option>
+          </select>
+
+          <select
+            value={filterPlan}
+            onChange={(e) => setFilterPlan(e.target.value)}
+            className="filter-select"
+          >
+            <option value="all">All Plans</option>
+            <option value="basic">Basic</option>
+            <option value="standard">Standard</option>
+            <option value="premium">Premium</option>
+          </select>
+
+          {/* Clear filters button */}
+          {(filterStatus !== 'all' || filterPlan !== 'all' || searchTerm) && (
+            <button 
+              className="btn-clear-filters"
+              onClick={() => {
+                setFilterStatus('all');
+                setFilterPlan('all');
+                setSearchTerm('');
+                const input = document.querySelector('.search-input-wrapper input');
+                if (input) input.value = '';
+              }}
+            >
+              <i className="fas fa-times"></i> Clear Filters
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Results count */}
+      <div className="search-results">
+        Showing {filteredAndSortedMembers.length} of {totalCount} members
+      </div>
+
+      {/* Members Table */}
+      <div className="table-wrapper">
+        {filteredAndSortedMembers.length === 0 ? (
+          <div className="empty-state">
+            <i className="fas fa-user-plus"></i>
+            {searchTerm || filterStatus !== 'all' || filterPlan !== 'all' ? (
+              <>
+                <p>No members found matching your filters</p>
+                <button 
+                  className="btn-secondary" 
+                  onClick={() => {
+                    setSearchTerm('');
+                    setFilterStatus('all');
+                    setFilterPlan('all');
+                    const input = document.querySelector('.search-input-wrapper input');
+                    if (input) input.value = '';
+                  }}
+                >
+                  Clear all filters
+                </button>
+              </>
+            ) : (
+              <>
+                <p>No members found</p>
+                <span>Click "Add Member" to get started!</span>
+              </>
+            )}
+          </div>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th onClick={() => handleSort('memberId')} className="sortable">
+                  ID {sortConfig.key === 'memberId' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                </th>
+                <th onClick={() => handleSort('name')} className="sortable">
+                  Name {sortConfig.key === 'name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                </th>
+                <th onClick={() => handleSort('age')} className="sortable">
+                  Age {sortConfig.key === 'age' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                </th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Plan</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredAndSortedMembers.map(member => {
+                const isPremium = isPremiumMember(member.membershipPlanId);
+                const planName = getPlanName(member.membershipPlanId);
+                const status = getMemberStatus(member.expiryDate);
+                const statusClass = STATUS_BADGE_CLASSES[status] || 'status-basic';
+
+                return (
+                  <tr key={member.memberId}>
+                    <td>#{member.memberId}</td>
+                    <td>
+                      <strong>{member.name}</strong>
+                      {member.joinDate && (
+                        <div className="member-join-date">
+                          <small>Joined: {formatDate(member.joinDate)}</small>
+                        </div>
+                      )}
+                    </td>
+                    <td>{member.age}</td>
+                    <td>{member.phone}</td>
+                    <td>{member.email || '—'}</td>
+                    <td>
+                      <span className={`status-badge ${isPremium ? 'status-premium' : 'status-basic'}`}>
+                        {planName}
+                      </span>
+                    </td>
+                    <td>
+                      <span className={`status-badge ${statusClass}`}>
+                        {status}
+                      </span>
+                      {member.expiryDate && (
+                        <div className="expiry-date">
+                          <small>Expires: {formatDate(member.expiryDate)}</small>
+                        </div>
+                      )}
+                    </td>
+                    <td className="action-icons">
+                      <i 
+                        className="fas fa-edit" 
+                        title="Edit"
+                        onClick={() => handleEdit(member)}
+                      ></i>
+                      <i 
+                        className="fas fa-trash-alt" 
+                        title="Delete"
+                        onClick={() => handleDelete(member.memberId)}
+                      ></i>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
+      </div>
+
+      {/* Export Modal */}
+      {showExportModal && (
+        <div className="modal-overlay" onClick={() => setShowExportModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>📤 Export Members</h3>
+              <button className="modal-close" onClick={() => setShowExportModal(false)}>
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
+            <div className="modal-body">
+              <p>Export {filteredAndSortedMembers.length} members to CSV file.</p>
+              <div className="export-options">
+                <button className="btn-primary" onClick={exportMembers}>
+                  <i className="fas fa-file-csv"></i> Export CSV
+                </button>
+                <button className="btn-secondary" onClick={() => setShowExportModal(false)}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Member Form */}
+      <MemberForm
+        isOpen={showForm}
+        onClose={handleFormClose}
+        onSave={handleSave}
+        member={editingMember}
+        isLoading={isSaving}
+        title={editingMember ? 'Edit Member' : 'Add New Member'}
+      />
+    </div>
+  );
+};
+
+export default MemberList;

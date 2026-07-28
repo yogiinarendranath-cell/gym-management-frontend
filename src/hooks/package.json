@@ -1,0 +1,64 @@
+{
+  "name": "@gym/hooks",
+  "version": "1.0.0",
+  "description": "Custom React hooks for Gym Management System",
+  "main": "index.js",
+  "module": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./useMembers": "./useMembers.js",
+    "./useTrainers": "./useTrainers.js",
+    "./useClasses": "./useClasses.js",
+    "./usePayments": "./usePayments.js",
+    "./useDashboard": "./useDashboard.js",
+    "./useAuth": "./useAuth.js",
+    "./useTheme": "./useTheme.js",
+    "./useSidebar": "./useSidebar.js",
+    "./useNotifications": "./useNotifications.js",
+    "./usePagination": "./usePagination.js",
+    "./useDebounce": "./useDebounce.js",
+    "./useLocalStorage": "./useLocalStorage.js",
+    "./useApi": "./useApi.js"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^14.0.0",
+    "@types/react": "^18.2.0",
+    "eslint": "^8.0.0",
+    "eslint-plugin-react": "^7.33.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "jest": "^29.0.0",
+    "prettier": "^3.0.0",
+    "react-test-renderer": "^18.2.0"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "gym-management",
+    "custom-hooks",
+    "react-hooks"
+  ],
+  "author": "Narendra Nath",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/gym-management-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/gym-management-system/issues"
+  },
+  "homepage": "https://github.com/yourusername/gym-management-system#readme"
+}
