@@ -1,4 +1,4 @@
-// src/components/common/Footer.jsx
+﻿// src/components/common/Footer.jsx
 import React, { useState, useEffect } from 'react';
 import {
   Box,

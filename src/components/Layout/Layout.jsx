@@ -1,14 +1,14 @@
-// src/components/Layout/Layout.jsx
+﻿// src/components/Layout/Layout.jsx
 import React, { useState, useEffect } from 'react';
 import './Layout.css';
 import { Link, useLocation } from 'react-router-dom';
-// ❌ Remove this line: import Footer from './components/common/Footer';
 import { 
   ROUTES, 
   STORAGE_KEYS,
   getStorageItem,
   setStorageItem
 } from '../../utils/constants';
+import Footer from '../common/Footer';
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -26,36 +26,35 @@ const Layout = ({ children }) => {
 
   // Navigation items
   const navItems = [
-    { path: ROUTES.DASHBOARD, label: 'Dashboard', icon: 'fa-chart-pie' },
-    { path: ROUTES.MEMBERS, label: 'Members', icon: 'fa-users' },
-    { path: ROUTES.TRAINERS, label: 'Trainers', icon: 'fa-dumbbell' },
-    { path: ROUTES.CLASSES, label: 'Classes', icon: 'fa-calendar-alt' },
-    { path: ROUTES.PAYMENTS, label: 'Payments', icon: 'fa-credit-card' },
-    { path: ROUTES.ATTENDANCE, label: 'Attendance', icon: 'fa-clipboard-check' },
-    { path: ROUTES.SETTINGS, label: 'Settings', icon: 'fa-cog' },
+    { path: '/dashboard', label: 'Dashboard', icon: 'fa-chart-pie' },
+    { path: '/members', label: 'Members', icon: 'fa-users' },
+    { path: '/trainers', label: 'Trainers', icon: 'fa-dumbbell' },
+    { path: '/classes', label: 'Classes', icon: 'fa-calendar-alt' },
+    { path: '/payments', label: 'Payments', icon: 'fa-credit-card' },
+    { path: '/subscriptions', label: 'Subscriptions', icon: 'fa-list' },
+    { path: '/attendance', label: 'Attendance', icon: 'fa-clipboard-check' },
+    { path: '/reports', label: 'Reports', icon: 'fa-chart-bar' },
+    { path: '/analytics', label: 'Analytics', icon: 'fa-chart-line' },
+    { path: '/settings', label: 'Settings', icon: 'fa-cog' },
   ];
 
-  // Load user from localStorage
   useEffect(() => {
     const savedUser = getStorageItem(STORAGE_KEYS.USER);
     if (savedUser) {
       setUser(savedUser);
     } else {
-      // Demo user
       setUser({
-        name: 'Narendra Nath',
-        email: 'narendra@example.com',
+        name: 'Admin User',
+        email: 'admin@gym.com',
         role: 'Admin',
-        avatar: 'NN'
+        avatar: 'AU'
       });
     }
 
-    // Load theme preference
     const savedTheme = getStorageItem(STORAGE_KEYS.THEME, 'light');
     setTheme(savedTheme);
     document.documentElement.setAttribute('data-theme', savedTheme);
 
-    // Handle responsive sidebar
     const handleResize = () => {
       if (window.innerWidth < 768) {
         setSidebarOpen(false);
@@ -69,7 +68,6 @@ const Layout = ({ children }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Toggle theme
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
@@ -77,7 +75,6 @@ const Layout = ({ children }) => {
     document.documentElement.setAttribute('data-theme', newTheme);
   };
 
-  // Toggle sidebar
   const toggleSidebar = () => {
     if (window.innerWidth < 768) {
       setMobileMenuOpen(!mobileMenuOpen);
@@ -86,33 +83,27 @@ const Layout = ({ children }) => {
     }
   };
 
-  // Close mobile menu on route change
   useEffect(() => {
     if (window.innerWidth < 768) {
       setMobileMenuOpen(false);
     }
   }, [location.pathname]);
 
-  // Get unread notifications count
   const unreadCount = notifications.filter(n => !n.read).length;
 
-  // Mark notification as read
   const markAsRead = (id) => {
     setNotifications(prev => 
       prev.map(n => n.id === id ? { ...n, read: true } : n)
     );
   };
 
-  // Mark all as read
   const markAllAsRead = () => {
     setNotifications(prev => 
       prev.map(n => ({ ...n, read: true }))
     );
   };
 
-  // Logout
   const handleLogout = () => {
-    // Clear storage and redirect
     localStorage.removeItem(STORAGE_KEYS.TOKEN);
     localStorage.removeItem(STORAGE_KEYS.USER);
     window.location.href = '/login';
@@ -184,12 +175,10 @@ const Layout = ({ children }) => {
           </div>
 
           <div className="topbar-right">
-            {/* Theme Toggle */}
             <button className="topbar-btn" onClick={toggleTheme} title="Toggle theme">
               <i className={`fas ${theme === 'light' ? 'fa-moon' : 'fa-sun'}`}></i>
             </button>
 
-            {/* Notifications */}
             <div className="notification-wrapper">
               <button 
                 className="topbar-btn notification-btn"
@@ -235,7 +224,6 @@ const Layout = ({ children }) => {
               )}
             </div>
 
-            {/* User Menu */}
             <div className="user-menu-wrapper">
               <button 
                 className="user-menu-btn"
@@ -285,6 +273,9 @@ const Layout = ({ children }) => {
         <main className="page-content">
           {children}
         </main>
+
+        {/* Footer */}
+        <Footer />
       </div>
     </div>
   );
