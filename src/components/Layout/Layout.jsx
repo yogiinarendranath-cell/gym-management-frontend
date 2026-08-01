@@ -32,8 +32,16 @@ const navItems = [
   { path: "/trainers", label: "Trainers", icon: "fa-dumbbell" },
   { path: "/classes", label: "Classes", icon: "fa-calendar-alt" },
   { path: "/payments", label: "Payments", icon: "fa-credit-card" },
+  { path: "/subscriptions", label: "Subscriptions", icon: "fa-id-card" },
   { path: "/attendance", label: "Attendance", icon: "fa-clipboard-check" },
+  { path: "/workouts", label: "Workouts", icon: "fa-running" },
+  { path: "/booking", label: "Booking", icon: "fa-calendar-check" },
+  { path: "/qrcodescan", label: "QR Code Scan", icon: "fa-qrcode" },
+  { path: "/invoices", label: "Invoices", icon: "fa-file-invoice-dollar" },
+  { path: "/tenants", label: "Tenants", icon: "fa-building" },
+  { path: "/email", label: "Email", icon: "fa-envelope" },
   { path: "/reports", label: "Reports", icon: "fa-chart-bar" },
+  { path: "/analytics", label: "Analytics", icon: "fa-chart-line" },
   { path: "/settings", label: "Settings", icon: "fa-cog" },
 ];
 
