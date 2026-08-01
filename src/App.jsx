@@ -2,7 +2,11 @@
 import './App.css';
 import Layout from './components/Layout/Layout';
 
-// Components
+// Import Layout Components
+//import Footer from "./components/common/Footer";
+//import Logo from "./components/Branding/Logo";
+
+// Import Page Components
 import Footer from "./components/common/Footer";
 import TermsOfService from "./components/Legal/TermsOfService";
 import Logo from "./components/Branding/Logo";
@@ -14,18 +18,17 @@ import WorkoutList from './components/Workouts/WorkoutList';
 import TenantList from './components/Tenants/TenantList';
 import InvoiceList from './components/Invoices/InvoiceList';
 import Bookings from './components/Bookings/Bookings';
+import MemberList from './components/Members/MemberList';
+import ClassList from './components/Classes/ClassList';
+import PaymentList from './components/Payments/PaymentList';
+import SubscriptionList from './components/Subscriptions/SubscriptionList';
+import Settings from './components/Settings/Settings';
+import QRCodeScanner from './components/QRCode/QRCodeScanner';
 
-// Add to pages
-const pages = {
-  // ... existing pages
-  bookings: <Bookings />,
-};
 
-// Add to navItems
-const navItems = [
-  // ... existing nav items
-  { id: 'bookings', label: 'Bookings', emoji: '📅' },
-];
+
+
+
 
 // Dashboard Component
 const Dashboard = () => {
@@ -699,36 +702,111 @@ function App() {
   const [page, setPage] = useState("dashboard");
 
   const pageNames = {
-    dashboard: "Dashboard",
-    members: "Members",
-    trainers: "Trainers",
-    classes: "Classes",
-    payments: "Payments",
-    terms: "Terms",
-    attendance: "Attendance",
-    reports: "Reports",
-    email: "Email",
-    analytics: "Analytics",
-    workouts: "Workouts",
-    tenants: "Tenants",
-    invoices: "Invoices",
-  };
+  // Main Modules
+  dashboard: "📊 Dashboard",
+  members: "👥 Members",
+  trainers: "🏋️ Trainers",
+  classes: "📚 Classes",
+  payments: "💰 Payments",
+  subscriptions: "📋 Subscriptions",
+  bookings: "📅 Bookings",
+  attendance: "✅ Attendance",
+  
+  // Additional Features
+  workouts: "🏃 Workouts",
+  tenants: "🏢 Tenants",
+  invoices: "📄 Invoices",
+  
+  // Analytics & Reports
+  reports: "📈 Reports",
+  email: "✉️ Email",
+  analytics: "📊 Analytics",
+  
+  // System
+  settings: "⚙️ Settings",
+  qrcodescan: "📱 QR Scan",
+};
+function App() {
+  const [page, setPage] = useState("dashboard");
 
-  const renderPage = () => {
+  // Category-based menu structure
+  const menuStructure = [
+    {
+      category: "📊 Main",
+      items: [
+        { key: "dashboard", label: "Dashboard" }
+      ]
+    },
+    {
+      category: "👥 Management",
+      items: [
+        { key: "members", label: "Members" },
+        { key: "trainers", label: "Trainers" },
+        { key: "classes", label: "Classes" },
+        { key: "subscriptions", label: "Subscriptions" }
+      ]
+    },
+    {
+      category: "💳 Operations",
+      items: [
+        { key: "payments", label: "Payments" },
+        { key: "bookings", label: "Bookings" },
+        { key: "attendance", label: "Attendance" }
+      ]
+    },
+    {
+      category: "🏋️ Fitness",
+      items: [
+        { key: "workouts", label: "Workouts" }
+      ]
+    },
+    {
+      category: "🏢 Business",
+      items: [
+        { key: "tenants", label: "Tenants" },
+        { key: "invoices", label: "Invoices" }
+      ]
+    },
+    {
+      category: "📊 Analytics",
+      items: [
+        { key: "reports", label: "Reports" },
+        { key: "analytics", label: "Analytics" }
+      ]
+    },
+    {
+      category: "✉️ Communication",
+      items: [
+        { key: "email", label: "Email" },
+        { key: "qrcodescan", label: "QR Scan" }
+      ]
+    },
+    {
+      category: "⚙️ System",
+      items: [
+        { key: "settings", label: "Settings" }
+      ]
+    }
+  ];
+}
+   const renderPage = () => {
     switch(page) {
       case "dashboard": return <Dashboard />;
-      case "members": return <Members />;
-      case "trainers": return <Trainers />;
-      case "classes": return <Classes />;
-      case "payments": return <Payments />;
-      case "terms": return <TermsOfServicePage />;
+      case "members": return <MemberList />;
+      case "trainers": return <TrainerList />;
+      case "classes": return <ClassList />;
+      case "payments": return <PaymentList />;
+      case "subscriptions": return <SubscriptionList />;
+      case "bookings": return <Bookings />;
       case "attendance": return <Attendance />;
-      case "reports": return <Reports />;
-      case "email": return <EmailNotifications />;
-      case "analytics": return <Analytics />;
       case "workouts": return <WorkoutList />;
       case "tenants": return <TenantList />;
       case "invoices": return <InvoiceList />;
+      case "reports": return <Reports />;
+      case "email": return <EmailNotifications />;
+      case "analytics": return <Analytics />;
+      case "settings": return <Settings />;
+      case "qrcodescan": return <QRCodeScanner />;
       default: return <Dashboard />;
     }
   };
@@ -769,7 +847,7 @@ function App() {
           </button>
         ))}
       </nav>
-
+      
       {/* Page Content */}
       {renderPage()}
     </Layout>

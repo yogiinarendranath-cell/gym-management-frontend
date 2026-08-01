@@ -1,5 +1,4 @@
-﻿// src/components/Layout/Layout.jsx
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import './Layout.css';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -9,6 +8,7 @@ import {
   setStorageItem
 } from '../../utils/constants';
 import Footer from '../common/Footer';
+import gymLogo from '../../assets/images/gym-logo.png';
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -25,18 +25,17 @@ const Layout = ({ children }) => {
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   // Navigation items
-  const navItems = [
-    { path: '/dashboard', label: 'Dashboard', icon: 'fa-chart-pie' },
-    { path: '/members', label: 'Members', icon: 'fa-users' },
-    { path: '/trainers', label: 'Trainers', icon: 'fa-dumbbell' },
-    { path: '/classes', label: 'Classes', icon: 'fa-calendar-alt' },
-    { path: '/payments', label: 'Payments', icon: 'fa-credit-card' },
-    { path: '/subscriptions', label: 'Subscriptions', icon: 'fa-list' },
-    { path: '/attendance', label: 'Attendance', icon: 'fa-clipboard-check' },
-    { path: '/reports', label: 'Reports', icon: 'fa-chart-bar' },
-    { path: '/analytics', label: 'Analytics', icon: 'fa-chart-line' },
-    { path: '/settings', label: 'Settings', icon: 'fa-cog' },
-  ];
+ // In Layout.jsx
+const navItems = [
+  { path: "/dashboard", label: "Dashboard", icon: "fa-chart-pie" },
+  { path: "/members", label: "Members", icon: "fa-users" },
+  { path: "/trainers", label: "Trainers", icon: "fa-dumbbell" },
+  { path: "/classes", label: "Classes", icon: "fa-calendar-alt" },
+  { path: "/payments", label: "Payments", icon: "fa-credit-card" },
+  { path: "/attendance", label: "Attendance", icon: "fa-clipboard-check" },
+  { path: "/reports", label: "Reports", icon: "fa-chart-bar" },
+  { path: "/settings", label: "Settings", icon: "fa-cog" },
+];
 
   useEffect(() => {
     const savedUser = getStorageItem(STORAGE_KEYS.USER);
@@ -168,17 +167,28 @@ const Layout = ({ children }) => {
               <i className="fas fa-bars"></i>
             </button>
             <div className="breadcrumb">
-              <span className="current-page">
-                {navItems.find(item => item.path === location.pathname)?.label || 'Dashboard'}
-              </span>
+              <img
+                src={gymLogo}
+                alt="Gym Logo"
+                className="gym-logo"
+                style={{ height: '32px', width: 'auto', marginRight: '10px' }}
+              />
+             <span className="current-page">
+              {navItems.find(item => item.path === location.pathname)?.label ||
+               "◦❧◦°˚°◦.¸¸◦°´❤*•.¸♥ 𝓢𝓶𝓪𝓻𝓽 𝓕𝓲𝓽𝓷𝓮𝓼𝓼 𝓖𝔂𝓶 𝓜𝓪𝓷𝓪𝓰𝓮𝓶𝓮𝓷𝓽 𝓢𝔂𝓼𝓽𝓮𝓶 ♥¸.•*❤´°◦¸¸.◦°˚°◦❧◦"}
+             </span>
+              <img
+                src={gymLogo}
+                alt="Gym Logo"
+                className="gym-logo"
+                style={{ height: '32px', width: 'auto', marginRight: '10px' }}
+              />
             </div>
           </div>
-
           <div className="topbar-right">
             <button className="topbar-btn" onClick={toggleTheme} title="Toggle theme">
               <i className={`fas ${theme === 'light' ? 'fa-moon' : 'fa-sun'}`}></i>
             </button>
-
             <div className="notification-wrapper">
               <button 
                 className="topbar-btn notification-btn"
@@ -276,6 +286,11 @@ const Layout = ({ children }) => {
 
         {/* Footer */}
         <Footer />
+        <div className="topbar-marquee">
+              <marquee behavior="scroll" direction="left" scrollamount="6">
+              📢 Welcome to GymManager Demo | This live site showcases the React frontend UI. Backend APIs, SQL Server database, authentication, and other dynamic features are not connected in this deployment. Data shown is for demonstration purposes only. View the complete .NET 9 Full-Stack source code on GitHub.
+              </marquee>
+           </div>
       </div>
     </div>
   );

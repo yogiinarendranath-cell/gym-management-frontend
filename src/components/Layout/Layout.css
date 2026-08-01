@@ -1,4 +1,4 @@
-/* src/components/Layout/Layout.css */
+﻿/* src/components/Layout/Layout.css */
 
 /* ============================================
    CSS Variables (Light/Dark themes)
@@ -18,9 +18,9 @@
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
   --radius: 12px;
   --transition: 0.3s ease;
-  --sidebar-width: 260px;
-  --sidebar-collapsed: 80px;
-  --topbar-height: 64px;
+  --sidebar-width: 135px;
+  --sidebar-collapsed: 55px;
+  --topbar-height: 56px;
 }
 
 [data-theme="dark"] {
@@ -66,9 +66,9 @@
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Sidebar Header */
+/* Sidebar Header - Compact */
 .sidebar-header {
-  padding: 20px 16px;
+  padding: 8px 8px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
@@ -78,18 +78,19 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 4px;
   color: var(--text-white);
 }
 
 .logo-icon {
-  font-size: 28px;
+  font-size: 18px;
 }
 
 .logo-text {
-  font-size: 20px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
 }
 
 .sidebar-close {
@@ -97,38 +98,60 @@
   background: none;
   border: none;
   color: var(--text-white);
-  font-size: 20px;
+  font-size: 14px;
   cursor: pointer;
 }
 
-/* Sidebar Navigation */
+/* Sidebar Navigation - Super Compact */
 .sidebar-nav {
   flex: 1;
-  padding: 16px 12px;
+  padding: 6px 4px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 1px;
+}
+
+.sidebar-nav::-webkit-scrollbar {
+  width: 3px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  border-radius: 10px;
+  gap: 6px;
+  padding: 4px 8px;
+  border-radius: 4px;
   color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   transition: all 0.2s ease;
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .nav-item i {
-  width: 20px;
-  font-size: 16px;
+  width: 14px;
+  font-size: 11px;
   text-align: center;
   flex-shrink: 0;
+}
+
+.nav-item .nav-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .nav-item:hover {
@@ -145,46 +168,56 @@
   color: #2a7de1;
 }
 
-/* Sidebar Footer */
+/* Sidebar Footer - Compact */
 .sidebar-footer {
-  padding: 16px;
+  padding: 6px 8px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .sidebar-user {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
   color: var(--text-white);
 }
 
 .user-avatar {
-  width: 40px;
-  height: 40px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: #2a7de1;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 10px;
   flex-shrink: 0;
 }
 
+.user-info {
+  flex: 1;
+  overflow: hidden;
+}
+
 .user-info .user-name {
-  font-size: 14px;
+  font-size: 10px;
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .user-info .user-role {
-  font-size: 12px;
+  font-size: 9px;
   opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ============================================
    Sidebar States
    ============================================ */
-/* Closed sidebar */
 .sidebar-closed .sidebar {
   width: var(--sidebar-collapsed);
 }
@@ -198,7 +231,7 @@
 
 .sidebar-closed .sidebar .nav-item {
   justify-content: center;
-  padding: 10px;
+  padding: 6px;
 }
 
 .sidebar-closed .sidebar .sidebar-user {
@@ -245,7 +278,7 @@
   top: 0;
   z-index: 100;
   background: var(--bg-topbar);
-  padding: 0 24px;
+  padding: 0 16px;
   height: var(--topbar-height);
   display: flex;
   align-items: center;
@@ -258,34 +291,59 @@
 .topbar-left {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
 }
 
 .menu-toggle {
   display: none;
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 16px;
   color: var(--text-primary);
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 4px 6px;
+}
+
+/* Breadcrumb with Logo */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gym-logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.35s ease;
+}
+
+.gym-logo:hover {
+  transform: scale(1.1) rotate(5deg);
+  filter: drop-shadow(0 0 8px rgba(255, 69, 0, 0.6));
 }
 
 .breadcrumb .current-page {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ff6a00, #ff3d00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
 
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
 }
 
 .topbar-btn {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: none;
   background: transparent;
@@ -295,7 +353,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 14px;
   position: relative;
 }
 
@@ -311,14 +369,14 @@
 
 .notification-badge {
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: 1px;
+  right: 1px;
   background: #b13e3e;
   color: white;
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 600;
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -327,13 +385,13 @@
 }
 
 /* ============================================
-   User Menu
+   User Menu - Compact
    ============================================ */
 .user-menu-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 4px 12px 4px 4px;
+  gap: 4px;
+  padding: 2px 8px 2px 2px;
   border-radius: 30px;
   border: 1px solid var(--border-color);
   background: transparent;
@@ -347,8 +405,8 @@
 }
 
 .user-avatar-small {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: #2a7de1;
   color: white;
@@ -356,16 +414,16 @@
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 10px;
 }
 
 .user-name-small {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
 }
 
 .user-menu-btn i {
-  font-size: 12px;
+  font-size: 10px;
   color: var(--text-muted);
 }
 
@@ -382,7 +440,7 @@
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  min-width: 320px;
+  min-width: 280px;
   background: var(--bg-secondary);
   border-radius: var(--radius);
   border: 1px solid var(--border-color);
@@ -405,13 +463,13 @@
 
 /* Notification Dropdown */
 .notification-dropdown {
-  max-height: 420px;
+  max-height: 350px;
   display: flex;
   flex-direction: column;
 }
 
 .dropdown-header {
-  padding: 12px 16px;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
@@ -421,14 +479,14 @@
 .dropdown-title {
   font-weight: 600;
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .mark-all-read {
   background: none;
   border: none;
   color: #2a7de1;
-  font-size: 12px;
+  font-size: 10px;
   cursor: pointer;
   font-weight: 500;
 }
@@ -440,14 +498,14 @@
 .dropdown-body {
   flex: 1;
   overflow-y: auto;
-  padding: 4px 0;
+  padding: 2px 0;
 }
 
 .notification-item {
-  padding: 10px 16px;
+  padding: 6px 12px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   cursor: pointer;
   transition: 0.2s;
   border-left: 3px solid transparent;
@@ -468,18 +526,18 @@
 
 .notification-content p {
   margin: 0;
-  font-size: 14px;
+  font-size: 12px;
   color: var(--text-secondary);
 }
 
 .notification-time {
-  font-size: 12px;
+  font-size: 10px;
   color: var(--text-muted);
 }
 
 .unread-dot {
-  width: 8px;
-  height: 8px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: #2a7de1;
   flex-shrink: 0;
@@ -487,31 +545,31 @@
 
 .empty-notifications {
   text-align: center;
-  padding: 30px 20px;
+  padding: 20px 16px;
   color: var(--text-muted);
 }
 
 .empty-notifications i {
-  font-size: 32px;
-  margin-bottom: 8px;
+  font-size: 24px;
+  margin-bottom: 4px;
   display: block;
 }
 
 /* User Menu Dropdown */
 .user-menu-dropdown {
-  min-width: 240px;
+  min-width: 190px;
 }
 
 .dropdown-user-info {
-  padding: 16px 20px;
+  padding: 10px 14px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .user-avatar-large {
-  width: 48px;
-  height: 48px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: #2a7de1;
   color: white;
@@ -519,35 +577,35 @@
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 13px;
   flex-shrink: 0;
 }
 
 .user-details .user-name {
   font-weight: 600;
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .user-details .user-email {
-  font-size: 12px;
+  font-size: 10px;
   color: var(--text-muted);
 }
 
 .dropdown-divider {
   height: 1px;
   background: var(--border-color);
-  margin: 4px 0;
+  margin: 2px 0;
 }
 
 .dropdown-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 20px;
+  gap: 8px;
+  padding: 6px 14px;
   color: var(--text-secondary);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 12px;
   transition: 0.2s;
   border: none;
   background: none;
@@ -562,8 +620,8 @@
 }
 
 .dropdown-item i {
-  width: 18px;
-  font-size: 14px;
+  width: 14px;
+  font-size: 12px;
 }
 
 .dropdown-item.logout {
@@ -579,7 +637,7 @@
    ============================================ */
 .page-content {
   flex: 1;
-  padding: 24px;
+  padding: 16px;
   background: var(--bg-primary);
 }
 
@@ -611,7 +669,6 @@
     display: block;
   }
 
-  /* Sidebar closed state on mobile */
   .sidebar-closed .sidebar {
     width: var(--sidebar-width);
     transform: translateX(-100%);
@@ -625,7 +682,7 @@
 
   .sidebar-closed .sidebar .nav-item {
     justify-content: flex-start;
-    padding: 10px 14px;
+    padding: 6px 10px;
   }
 
   .sidebar-closed .sidebar .sidebar-user {
@@ -639,7 +696,7 @@
 
 @media (max-width: 768px) {
   .topbar {
-    padding: 0 16px;
+    padding: 0 10px;
   }
 
   .breadcrumb .current-page {
@@ -652,24 +709,29 @@
 
   .notification-dropdown,
   .user-menu-dropdown {
-    min-width: 280px;
-    right: -60px;
+    min-width: 240px;
+    right: -50px;
   }
 
   .page-content {
-    padding: 16px;
+    padding: 10px;
   }
 
   .dropdown-body {
-    max-height: 300px;
+    max-height: 220px;
+  }
+
+  .gym-logo {
+    width: 28px;
+    height: 28px;
   }
 }
 
 @media (max-width: 480px) {
   .notification-dropdown,
   .user-menu-dropdown {
-    min-width: 260px;
-    right: -80px;
+    min-width: 200px;
+    right: -70px;
   }
 
   .dropdown-user-info {
@@ -678,15 +740,24 @@
   }
 
   .dropdown-item {
-    padding: 8px 16px;
-    font-size: 13px;
+    padding: 5px 10px;
+    font-size: 11px;
   }
 
   .notification-item {
-    padding: 8px 12px;
+    padding: 5px 8px;
   }
 
   .notification-content p {
-    font-size: 13px;
+    font-size: 11px;
+  }
+
+  .gym-logo {
+    width: 24px;
+    height: 24px;
+  }
+
+  .breadcrumb .current-page {
+    font-size: 12px;
   }
 }
